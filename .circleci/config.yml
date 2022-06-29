@@ -1627,7 +1627,6 @@ workflows:
     # jobs run in parallel
     jobs:
       - linux_build_openjdk8
-      - linux_build_openjdk11
       - linux_unit_groovy
       - linux_build_ant
       - linux_test_integration
@@ -1643,7 +1642,6 @@ workflows:
   macos_jobs:
     jobs:
       - mac_build_openjdk8
-      - mac_build_openjdk11
       - macos_unit_groovy
       - macos_build_ant
       - macos_test_integration
