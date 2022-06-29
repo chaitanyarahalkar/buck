@@ -55,6 +55,18 @@ install_openjdk8: &install_openjdk8
       export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
     fi
     java -version
+    
+install_openjdk11: &install_openjdk11
+  name: Install OpenJDK11
+  command: |
+    if [ "${PLATFORM}" == "linux" ]; then
+      sudo apt-get update && sudo apt-get install openjdk-11-jdk
+      sudo update-java-alternatives -s java-1.11.0-openjdk-amd64 
+    elif [ "${PLATFORM}" == "macos" ]; then
+      brew install openjdk@11
+      export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+    fi
+    java -version
 
 install_android_sdk: &install_android_sdk
   name: Install Android SDK
@@ -1588,7 +1600,7 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *install_openjdk8
+          <<: *install_openjdk11
       - run:
           # android_sdk needed to build java docs.
           <<: *install_android_sdk
@@ -1615,6 +1627,7 @@ workflows:
     # jobs run in parallel
     jobs:
       - linux_build_openjdk8
+      - linux_build_openjdk11
       - linux_unit_groovy
       - linux_build_ant
       - linux_test_integration
@@ -1630,6 +1643,7 @@ workflows:
   macos_jobs:
     jobs:
       - mac_build_openjdk8
+      - mac_build_openjdk11
       - macos_unit_groovy
       - macos_build_ant
       - macos_test_integration
